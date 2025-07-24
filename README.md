@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # ten_du_an
+=======
+# spotify_app
+>>>>>>> 284e3d1dd81d3d7ddd22a40888fee16ea635d567
 
 A new Flutter project.
 
