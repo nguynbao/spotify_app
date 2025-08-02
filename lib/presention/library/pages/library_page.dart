@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:spotify_app/core/configs/assets/app_images.dart';
+import 'package:spotify_app/core/configs/assets/app_vectors.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -9,6 +11,7 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
+  Set<int> _pinnedItems = {};
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -112,7 +115,7 @@ class _LibraryPageState extends State<LibraryPage> {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: 10,
-                        itemBuilder: (_, index) => _mostRecent(),
+                        itemBuilder: (_, index) => _mostRecent(index),
                       ),
                       _add(),
                     ],
@@ -145,33 +148,70 @@ class _LibraryPageState extends State<LibraryPage> {
     );
   }
 
-  Widget _mostRecent() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Image.asset(AppImages.likeSong, height: 68, width: 68),
-              SizedBox(width: 20),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Liked Song',
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Text('200', style: TextStyle(fontSize: 11)),
-                ],
-              ),
-            ],
-          ),
-        ],
+  Widget _mostRecent(int index) {
+    final isPinned = _pinnedItems.contains(index);
 
-        // mainAxisAlignment: MainAxisAlignment.start,
+    return Dismissible(
+      key: ValueKey('liked-song-$index'), // key theo index để duy nhất
+      direction: DismissDirection.startToEnd,
+      background: Container(
+        alignment: Alignment.centerLeft,
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        color: Colors.green,
+        child: SvgPicture.asset(
+          AppVectors.Pinned,
+          color: Colors.white,
+          height: 24,
+          width: 24,
+        ),
+      ),
+      confirmDismiss: (direction) async {
+        setState(() {
+          _pinnedItems.add(index); // Ghim bài hát theo index
+        });
+        return false; // Không xoá
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Image.asset(AppImages.likeSong, height: 68, width: 68),
+                SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Liked Song',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        if (isPinned)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 6),
+                            child: SvgPicture.asset(
+                              AppVectors.Pinned,
+                              color: Colors.green,
+                              height: 14,
+                              width: 14,
+                            ),
+                          ),
+                        Text('200', style: TextStyle(fontSize: 11)),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

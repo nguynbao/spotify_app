@@ -15,4 +15,5 @@ class AppVectors {
   static const String Share = '${basePath}Share$format';
   static const String Queue = '${basePath}Queue$format';
   static const String expand = '${basePath}Expand$format';
+  static const String Pinned = '${basePath}Pinned$format';
 }
