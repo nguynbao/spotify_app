@@ -16,4 +16,6 @@ class AppVectors {
   static const String Queue = '${basePath}Queue$format';
   static const String expand = '${basePath}Expand$format';
   static const String Pinned = '${basePath}Pinned$format';
+  static const String loved = '${basePath}loved$format';
+  static const String play_btn = '${basePath}Play$format';
 }

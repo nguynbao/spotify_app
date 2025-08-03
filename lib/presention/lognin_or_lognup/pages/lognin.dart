@@ -49,28 +49,28 @@ class _LognInState extends State<LognIn> {
                 children: [
                   AppButton(
                     onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MainScreen(),
-                        ),
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => const MainScreen(),
+                      //   ),
+                      // );
+                      bool success = await authBloc.login(
+                        email.text,
+                        password.text,
                       );
-                      //   bool success = await authBloc.login(
-                      //     email.text,
-                      //     password.text,
-                      //   );
-                      //   if (success) {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => const MainScreen(),
-                      //       ),
-                      //     );
-                      //   } else {
-                      //     ScaffoldMessenger.of(context).showSnackBar(
-                      //       SnackBar(content: Text('Đăng nhap thất bại')),
-                      //     );
-                      //   }
+                      if (success) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MainScreen(),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Đăng nhap thất bại')),
+                        );
+                      }
                     },
                     title: 'Login',
                   ),

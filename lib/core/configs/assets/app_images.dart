@@ -11,4 +11,5 @@ class AppImages {
   static const String likeSong = '${basePath}like_song$format';
   static const String userAvatar = '${basePath}user_avt$format';
   static const String imgMain = '${basePath}img_main$format';
+  static const String list = '${basePath}list$format';
 }

@@ -60,6 +60,12 @@ class _LognUpState extends State<LognUp> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Đăng kí thành công')),
                         );
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LognIn(),
+                          ),
+                        );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text('Đăng kí thất bại')),
