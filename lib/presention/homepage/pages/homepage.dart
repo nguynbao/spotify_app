@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spotify_app/core/configs/assets/app_images.dart';
-import 'package:spotify_app/core/configs/assets/app_vectors.dart';
 import 'package:spotify_app/presention/homepage/widgets/buntton.dart';
 
 class Homepage extends StatefulWidget {

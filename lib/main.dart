@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:spotify_app/core/configs/assets/app_audio.dart';
 import 'package:spotify_app/core/configs/theme/app_theme.dart';
 import 'package:spotify_app/firebase_options.dart';
 import 'package:spotify_app/presention/splash/pages/splash.dart';
@@ -15,10 +16,10 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown, // Tuỳ chọn, có thể bỏ
   ]);
-  final player = AudioPlayer();
-  await player.setAsset('assets/audio/song.mp3'); // nếu là asset
-  // await player.setUrl('https://yourdomain.com/song.mp3'); // nếu là URL
-  await player.play();
+  // final player = AudioPlayer();
+  // await player.setAsset(AppAudio.khong_dau_nua_roi); // nếu là asset
+  // // await player.setUrl('https://yourdomain.com/song.mp3'); // nếu là URL
+  // await player.play();
   runApp(const SpotifyApp());
 }
 

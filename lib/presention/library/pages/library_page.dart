@@ -11,7 +11,7 @@ class LibraryPage extends StatefulWidget {
 }
 
 class _LibraryPageState extends State<LibraryPage> {
-  Set<int> _pinnedItems = {};
+  final Set<int> _pinnedItems = {};
   @override
   Widget build(BuildContext context) {
     return SafeArea(
