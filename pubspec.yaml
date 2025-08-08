@@ -1,8 +1,6 @@
 name: spotify_app
 description: "A new Flutter project."
-
 publish_to: 'none' 
-
 version: 1.0.0+1
 
 environment:
@@ -11,39 +9,22 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  flutter_svg: ^2.0.9
-  flutter_screenutil: ^5.9.0
+  cloud_firestore: ^4.17.5
 
-  firebase_core: ^4.0.0
-  firebase_auth: ^6.0.0
-  cloud_firestore: ^6.0.0
-  just_audio: ^0.10.4
-  flutter_bloc: ^9.1.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_lints: ^6.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter packages.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
   assets:
     - assets/fonts/
     - assets/vectors/
     - assets/images/
     - assets/audio/
-  
+
   fonts:
     - family: TiktokSans  
       fonts:
@@ -52,5 +33,4 @@ flutter:
         - asset: assets/fonts/TiktokSans-Light.ttf
         - asset: assets/fonts/TiktokSans-Medium.ttf
         - asset: assets/fonts/TiktokSans-Regular.ttf
-        - asset: assets/fonts/TiktokSans-SemiBold.ttf  
-  
+        - asset: assets/fonts/TiktokSans-SemiBold.ttf

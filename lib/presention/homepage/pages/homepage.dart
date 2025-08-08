@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify_app/core/configs/assets/app_images.dart';
+import 'package:spotify_app/presention/homepage/pages/add_album.dart';
 import 'package:spotify_app/presention/homepage/widgets/buntton.dart';
 
 class Homepage extends StatefulWidget {
@@ -57,34 +60,91 @@ class _HomepageState extends State<Homepage> {
     );
   }
 
-  Widget _buildHeader() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          Text(
-            getGreetingMessage(),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
+ Widget _buildHeader() {
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Row(
+      children: [
+        Text(
+          getGreetingMessage(),
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
           ),
-          const Spacer(),
-          ...[Icons.notifications, Icons.time_to_leave, Icons.settings].map(
-            (icon) => IconButton(
-              onPressed: () {},
-              icon: Icon(icon, color: Colors.white, size: 30),
-            ),
+        ),
+        const Spacer(),
+        IconButton(
+          onPressed: () {
+            // Xử lý notification
+          },
+          icon: const Icon(Icons.notifications, color: Colors.white, size: 30),
+        ),
+        IconButton(
+          onPressed: () {
+            // Xử lý time_to_leave
+          },
+          icon: const Icon(Icons.time_to_leave, color: Colors.white, size: 30),
+        ),
+        PopupMenuButton<String>(
+          onSelected: (value){
+            if(value == 'profile'){
+
+            }else if(value == 'logout'){
+
+            }else{
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AddAlbumScreen()));
+            }
+          },
+          offset: const Offset(0, 40), // Dịch xuống dưới icon
+          shape: RoundedRectangleBorder( // Bo góc khung
+            borderRadius: BorderRadius.circular(12),
           ),
-        ],
-      ),
-    );
-  }
+          color: Colors.black, // Màu nền popup
+          elevation: 4, // Đổ bóng
+          itemBuilder: (context) => [
+            PopupMenuItem<String>(
+              value: 'profile',
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: const [
+                  Icon(Icons.person, size: 20),
+                  SizedBox(width: 8),
+                  Text("Tài khoản"),
+                ],
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'logout',
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
+                children: const [
+                  Icon(Icons.logout, size: 20),
+                  SizedBox(width: 8),
+                  Text("Đăng xuất"),
+                ],
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'add',
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(children: const [
+                  Icon(Icons.add, size: 20),
+                  SizedBox(width: 8),
+                  Text("Thêm nhạc"),
+                ],))
+          ],
+          icon: const Icon(Icons.settings), // Icon hiển thị
+        ),
+      ],
+    ),
+  );
+}
+
 
   Widget _buildGridSection() {
-    return FutureBuilder<QuerySnapshot>(
-      future: FirebaseFirestore.instance.collection('album').get(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('albums').snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -113,7 +173,12 @@ class _HomepageState extends State<Homepage> {
             ),
             itemBuilder: (_, index) {
               final albumData = albums[index].data() as Map<String, dynamic>;
-              final albumName = albumData['album_name'] ?? 'Unknown';
+              final albumName = albumData['name'] ?? 'Unknown';
+              final List<String> imageUrls = List<String>.from(albumData['images']);
+              final String thumbnailUrl = imageUrls.isNotEmpty
+                ? imageUrls.first
+                : AppImages.list; // Ảnh mặc định
+
               return Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.1),
@@ -124,8 +189,11 @@ class _HomepageState extends State<Homepage> {
                   children: [
                     ClipRRect(
                       // borderRadius: BorderRadius.circular(5),
-                      child: Image.asset(
-                        AppImages.list,
+                      child: Image.file(
+                        File(thumbnailUrl),
+                        errorBuilder: (context, error, stackTrace) {
+                          return Image.asset(AppImages.list); // ảnh mặc định khi lỗi
+                        },
                         height: double.infinity,
                         fit: BoxFit.fill,
                       ),
